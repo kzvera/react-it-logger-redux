@@ -4,7 +4,8 @@ const initialState = {
     logs: null,
     current: null,
     loading: false,
-    error: null
+    error: null,
+    filtered: null
 }
 
 const logReducer = (state = initialState, action) => {
@@ -35,8 +36,11 @@ const logReducer = (state = initialState, action) => {
         case SEARCH_LOGS:
             return {
                 ...state,
-                logs: action.payload
-            }
+                filtered: state.logs.filter(log => {
+                    const regex = new RegExp(`${action.payload}`, 'gi');
+                    return log.message.match(regex) || log.tech.match(regex) || log.date.match(regex);
+                })
+            };
         case SET_CURRENT:
             return {
                 ...state,

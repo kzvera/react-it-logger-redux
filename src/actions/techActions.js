@@ -4,12 +4,25 @@ export const getTechs = () => async dispatch => {
     try {
         setLoading()
 
-        const res = await fetch('/techs');
+        const res = await fetch('https://react-it-logger-redux-3a52b-default-rtdb.firebaseio.com/techs.json');
         const data = await res.json();
+
+        const techs = [];
+
+        for (const key in data) {
+            const tech = {
+                id: key,
+                firstName: data[key].firstName,
+                lastName: data[key].lastName,
+                employeeId: data[key].employeeId
+            }
+
+            techs.push(tech);
+        }
 
         dispatch({
             type: GET_TECHS,
-            payload: data
+            payload: techs
         })
     } catch (error) {
         dispatch({
@@ -22,19 +35,22 @@ export const getTechs = () => async dispatch => {
 export const addTech = (tech) => async dispatch => {
     try {
         setLoading();
-
-        const res = await fetch('/techs', {
+                
+        const res = await fetch('https://react-it-logger-redux-3a52b-default-rtdb.firebaseio.com/techs.json', {
             method: 'POST',
             body: JSON.stringify(tech),
             headers: {
                 'Content-Type': 'application/json'
             }
         });
+
         const data = await res.json();
+
+        const newTech = { ...tech, id: data.name }
 
         dispatch({
             type: ADD_TECH,
-            payload: data
+            payload: newTech
         })
     } catch (error) {
         dispatch({
@@ -48,7 +64,7 @@ export const deleteTech = (id) => async dispatch => {
     try {
         setLoading()
 
-        await fetch(`/techs/${id}`, {
+        await fetch(`https://react-it-logger-redux-3a52b-default-rtdb.firebaseio.com/techs/${id}.json`, {
             method: 'DELETE'
         });
 

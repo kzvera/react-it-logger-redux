@@ -6,7 +6,7 @@ import LogItem from './LogItem';
 import Preloader from '../layout/Preloader';
 import { getLogs } from '../../actions/logActions';
 
-const Logs = ({ log: { logs, loading }, getLogs }) => {
+const Logs = ({ log: { logs, loading, filtered }, getLogs }) => {
     useEffect(() => {
         getLogs();
         // eslint-disable-next-line
@@ -21,26 +21,21 @@ const Logs = ({ log: { logs, loading }, getLogs }) => {
             <li className="collection-header">
                 <h4 className="center">System Logs</h4>
             </li>
-            {!loading && logs.length === 0 ? (<p className="center">No logs to show...</p>) : (
-                logs.map(log => <LogItem log={log} key={log.id} />)
-            )}
+            {!loading && logs.length === 0 ? (<p className="center">No logs to show...</p>) : 
+                filtered !== null ? filtered.map(log => <LogItem log={log} key={log.id} />) : logs.map(log => <LogItem log={log} key={log.id} />)}
         </ul>
     )
 }
 
 Logs.propTypes = {
     log: PropTypes.object.isRequired,
+    filtered: PropTypes.object,
     getLogs: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
-    log: state.log
+    log: state.log,
+    filtered: state.filtered
 })
 
-const mapDispatchToProps = dispatch => {
-    return {
-      getLogs: () => dispatch(getLogs()) // keys are prop names and the value is the function that we call dispatch
-    }
-  }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Logs)
+export default connect(mapStateToProps, { getLogs })(Logs)

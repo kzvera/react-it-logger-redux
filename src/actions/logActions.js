@@ -1,15 +1,31 @@
+import { v4 as uuid } from 'uuid'
 import { GET_LOGS, SET_LOADING, LOGS_ERROR, ADD_LOG, DELETE_LOG, SET_CURRENT, CLEAR_CURRENT, UPDATE_LOG, SEARCH_LOGS } from './types'
 
 export const getLogs = () => async dispatch => {
     try {
         setLoading()
 
-        const res = await fetch('/logs');
+        const res = await fetch('https://react-it-logger-redux-3a52b-default-rtdb.firebaseio.com/logs.json');
         const data = await res.json();
+
+        const logs = [];
+
+        for (const key in data) {
+            const log = {
+                id: key,
+                attention: data[key].attention,
+                date: data[key].date,
+                message: data[key].message,
+                tech: data[key].tech,
+                logId: data[key].logId
+            }
+
+            logs.push(log);
+        }
 
         dispatch({
             type: GET_LOGS,
-            payload: data
+            payload: logs
         })
     } catch (error) {
         dispatch({
@@ -23,18 +39,21 @@ export const addLog = (log) => async dispatch => {
     try {
         setLoading();
 
-        const res = await fetch('/logs', {
+        const res = await fetch('https://react-it-logger-redux-3a52b-default-rtdb.firebaseio.com/logs.json', {
             method: 'POST',
             body: JSON.stringify(log),
             headers: {
                 'Content-Type': 'application/json'
             }
         });
+
         const data = await res.json();
+
+        const newLog = { ...log, id: data.name, logId: uuid() }
 
         dispatch({
             type: ADD_LOG,
-            payload: data
+            payload: newLog
         })
     } catch (error) {
         dispatch({
@@ -48,7 +67,7 @@ export const deleteLog = (id) => async dispatch => {
     try {
         setLoading()
 
-        await fetch(`/logs/${id}`, {
+        await fetch(`https://react-it-logger-redux-3a52b-default-rtdb.firebaseio.com/logs/${id}.json`, {
             method: 'DELETE'
         });
 
@@ -68,7 +87,7 @@ export const updateLog = (log) => async dispatch => {
     try {
         setLoading()
 
-        const res = await fetch(`/logs/${log.id}`, {
+        const res = await fetch(`https://react-it-logger-redux-3a52b-default-rtdb.firebaseio.com/logs/${log.id}.json`, {
             method: 'PUT',
             body: JSON.stringify(log),
             headers: {
@@ -94,12 +113,9 @@ export const searchLogs = (text) => async dispatch => {
     try {
         setLoading()
 
-        const res = await fetch(`/logs?q=${text}`);
-        const data = await res.json();
-
         dispatch({
             type: SEARCH_LOGS,
-            payload: data
+            payload: text
         })
     } catch (error) {
         dispatch({

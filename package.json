@@ -16,6 +16,7 @@
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -47,6 +48,5 @@
   "devDependencies": {
     "concurrently": "^6.4.0",
     "json-server": "^0.17.0"
-  },
-  "proxy": "http://localhost:5000"
+  }
 }

@@ -5,36 +5,36 @@
       "attention": false,
       "tech": "Sam Smith",
       "date": "2021-11-29T16:09:38.258Z",
-      "id": 1
+      "id": "3e34c236-51eb-11ec-bf63-0242ac130002"
     },
     {
-      "id": 2,
       "message": "Hard drive fixed on workstation 002",
       "tech": "John Doe",
       "attention": false,
-      "date": "2021-11-29T16:29:59.573Z"
+      "date": "2021-11-29T16:29:59.573Z",
+      "id": "3e34c484-51eb-11ec-bf63-0242ac130002"
     },
     {
       "message": "1122 wireless down",
       "attention": true,
       "tech": "Sara Wilson",
       "date": "2021-11-29T16:10:15.764Z",
-      "id": 3
+      "id": "3e34c592-51eb-11ec-bf63-0242ac130002"
     }
   ],
   "techs": [
     {
-      "id": 1,
+      "id": "3e34c682-51eb-11ec-bf63-0242ac130002",
       "firstName": "John",
       "lastName": "Doe"
     },
     {
-      "id": 2,
+      "id": "3e34c8da-51eb-11ec-bf63-0242ac130002",
       "firstName": "Sam",
       "lastName": "Smith"
     },
     {
-      "id": 3,
+      "id": "3e34c9b6-51eb-11ec-bf63-0242ac130002",
       "firstName": "Sara",
       "lastName": "Wilson"
     }
